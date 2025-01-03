@@ -1,1 +1,3 @@
 postgres_data
+infra/volume/cache/ 
+backend/app/__pycache__
