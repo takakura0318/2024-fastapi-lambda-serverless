@@ -41,6 +41,7 @@ if (config !== localConfig) {
   });
 
 } else {
+  // LocalStack
   new LocalStack(app, "LocalStack", {
     env: {
       account,

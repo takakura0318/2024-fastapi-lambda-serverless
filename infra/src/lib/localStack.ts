@@ -7,6 +7,7 @@ export interface LocalStackProps extends StackProps {
   config: ConfigType;
 }
 
+// LocalStack
 export class LocalStack extends Stack {
   constructor(scope: Construct, id: string, props: LocalStackProps) {
     super(scope, id, props);
