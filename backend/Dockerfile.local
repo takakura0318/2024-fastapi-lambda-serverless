@@ -1,0 +1,19 @@
+FROM public.ecr.aws/lambda/python:3.12
+
+ENV LAMBDA_TASK_ROOT="/var/task"
+ENV PYTHONUNBUFFERED=1
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+COPY pyproject.toml uv.lock ${LAMBDA_TASK_ROOT}/
+WORKDIR ${LAMBDA_TASK_ROOT}
+
+RUN uv sync
+
+ENV PATH="${LAMBDA_TASK_ROOT}/.venv/bin:${PATH}"
+
+COPY . ${LAMBDA_TASK_ROOT}
+WORKDIR ${LAMBDA_TASK_ROOT}/app
+
+ENTRYPOINT ["uv", "run","python", "-m", "debugpy", "--listen", "0.0.0.0:5680", \
+            "-m", "uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8080"]
